@@ -29,4 +29,4 @@ def somme_a_donner(somme_a_rendre):
         print(f"Il faut rendre {somme_a_rendre // 1} pièces de 1€")
         somme_a_rendre = somme_a_rendre % 1
     return somme_a_rendre
-somme_a_donner(60)
+somme_a_donner(...)
