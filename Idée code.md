@@ -19,13 +19,13 @@ def somme_a_donner(somme_a_rendre):
     if somme_a_rendre >= 10:
         print(f"Il faut rendre {somme_a_rendre // 10} billets de 10€")
         somme_a_rendre = somme_a_rendre % 10
-     if somme_a_rendre >= 5:
+    if somme_a_rendre >= 5:
         print(f"Il faut rendre {somme_a_rendre // 5} billets de 5€")
         somme_a_rendre = somme_a_rendre % 5
-     if somme_a_rendre >= 2:
+    if somme_a_rendre >= 2:
         print(f"Il faut rendre {somme_a_rendre // 2} pièces de 2€")
         somme_a_rendre = somme_a_rendre % 2
-     if somme_a_rendre >= 1:
+    if somme_a_rendre >= 1:
         print(f"Il faut rendre {somme_a_rendre // 1} pièces de 1€")
         somme_a_rendre = somme_a_rendre % 1
     return somme_a_rendre
