@@ -12,9 +12,15 @@ def somme_a_donner(somme_a_rendre):
     return dico_somme
 
             
+reponse = input("dans quel magasin voulez vous faire des achats ? ")
+if reponse in 'Fleury et Bott':
+    sommes_a_rendre = (0, 60, 63, 231, 899)
+    for i in range(len(sommes_a_rendre)):
+        resultat = somme_a_donner(sommes_a_rendre[i])
+        for keys, values in resultat.items():
+            print(f"il faut donner {values} billet de {keys} pour une somme a rendre de {sommes_a_rendre[i]}")
 
-resultat = somme_a_donner(900)
-for keys, values in resultat.items():
-    print(f"il faut donner {resultat[values]} billet de {resultat[keys]}")
+
+
 
 
