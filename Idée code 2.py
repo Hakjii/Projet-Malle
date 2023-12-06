@@ -25,6 +25,8 @@ def somme_a_donner_MG(somme_a_rendre) :
             dico_billets[billet] -= compteur  
     return dico_somme, somme_a_rendre
 
+def somme_a_donner_O(somme_a_rendre): # 1 gallion = 17 mornilles , 1 mornille = 29 noises
+    dico_somme = {}
 
 
 reponse = input("dans quel magasin voulez vous faire des achats (choix possibles : Fleury et Bott, Madame Guipure, Ollivander)? ")
@@ -43,7 +45,7 @@ if reponse in 'Madame Guipure':
     for i in range(len(sommes_a_rendre_MG)):
         resultat_MG, somme_a_rendre_MG = somme_a_donner_MG(sommes_a_rendre_MG[i])
         print(f"pour une somme a rendre de {sommes_a_rendre_MG[i]}")
-        if sommes_a_rendre_FB[i] == 0:
+        if sommes_a_rendre_MG[i] == 0:
             print("il n'y a rien a rendre")
         for keys, values in resultat_MG.items():
             print(f"{values} billets de {keys} €")
