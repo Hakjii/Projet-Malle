@@ -24,8 +24,8 @@ def somme_a_donner_MG(somme_a_rendre) :
             dico_billets[nombre] -= compteur   # a completer parce que c'est pas ouf
 
 
-    if somme_a_rendre > 0:
-        print("il n'y a plus de billets disponibles") # a faire pour quand il reste plus de billets
+        if compteur > 0:
+            print("il n'y a plus de billets disponibles") # a faire pour quand il reste plus de billets
     return dico_somme
 
 res = somme_a_donner_MG(231)

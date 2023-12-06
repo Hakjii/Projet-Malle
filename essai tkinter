@@ -1,3 +1,87 @@
-from tkinter import *
-fenetre = Tk()
-fenetre.
+import tkinter as tk
+from tkinter import ttk
+
+def somme_a_donner_FB(somme_a_rendre):
+    tuple_somme = (500, 200, 100, 50, 20, 10, 5, 2, 1)
+    dico_somme = {}
+    for nombre in tuple_somme:
+        if somme_a_rendre >= nombre:
+            compteur = somme_a_rendre // nombre
+            dico_somme[nombre] = compteur
+            somme_a_rendre = somme_a_rendre % nombre
+    return dico_somme
+
+def somme_a_donner_MG(somme_a_rendre):
+    dico_billets = {200: 1, 100: 3, 50: 1, 20: 1, 10: 1, 5: 1, 2: 5}
+    dico_somme = {}
+    for billet, quantite_disponible in dico_billets.items():
+        if somme_a_rendre >= billet and quantite_disponible > 0:
+            compteur = somme_a_rendre // billet
+            if compteur > quantite_disponible:
+                compteur = quantite_disponible
+            dico_somme[billet] = compteur
+            somme_a_rendre -= compteur * billet
+            dico_billets[billet] -= compteur
+    return dico_somme, somme_a_rendre
+
+def calculate_and_display_result(magasin, somme_a_rendre):
+    result_text.delete(1.0, tk.END)  # Clear previous results
+
+    if magasin == 'Fleury et Bott':
+        for amount in somme_a_rendre:
+            resultat_FB = somme_a_donner_FB(amount)
+            result_text.insert(tk.END, f"Pour une somme à rendre de {amount} :\n")
+            if amount == 0:
+                result_text.insert(tk.END, "Il n'y a rien à rendre\n")
+            for keys, values in resultat_FB.items():
+                result_text.insert(tk.END, f"Il faut donner {values} billet de {keys}\n")
+            result_text.insert(tk.END, "\n")
+
+    elif magasin == 'Madame Guipure':
+        for amount in somme_a_rendre:
+            resultat_MG, somme_restante = somme_a_donner_MG(amount)
+            result_text.insert(tk.END, f"Pour une somme à rendre de {amount} :\n")
+            if amount == 0:
+                result_text.insert(tk.END, "Il n'y a rien à rendre\n")
+            for keys, values in resultat_MG.items():
+                result_text.insert(tk.END, f"{values} billets de {keys} €\n")
+            if somme_restante > 0:
+                result_text.insert(tk.END, f"Il n'y a plus assez de billet pour tout rendre, il reste {somme_restante} € à rendre\n")
+            result_text.insert(tk.END, "\n")
+
+# Tkinter GUI
+root = tk.Tk()
+root.title("Calcul de rendu monnaie")
+
+# Magasin selection
+magasin_label = tk.Label(root, text="Choisissez un magasin:")
+magasin_label.pack()
+
+magasin_var = tk.StringVar()
+magasin_var.set('Fleury et Bott')
+
+magasin_options = ['Fleury et Bott', 'Madame Guipure']
+magasin_menu = tk.OptionMenu(root, magasin_var, *magasin_options)
+magasin_menu.pack()
+
+# Somme à rendre entry
+somme_label = tk.Label(root, text="Somme à rendre (séparée par des virgules):")
+somme_label.pack()
+
+somme_entry = tk.Entry(root)
+somme_entry.pack()
+
+# Result display
+result_text = tk.Text(root, height=20, width=50)
+result_text.pack()
+
+# Calculate button
+def calculate():
+    somme_a_rendre = [int(x) for x in somme_entry.get().split(',')]
+    selected_magasin = magasin_var.get()
+    calculate_and_display_result(selected_magasin, somme_a_rendre)
+
+calculate_button = tk.Button(root, text="Calculer", command=calculate)
+calculate_button.pack()
+
+root.mainloop()
