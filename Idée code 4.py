@@ -47,27 +47,34 @@ def afficher_resultat(sommes_a_rendre, magasin):
     return resultats
 
 def question_utilisateur():
-    question = input("Voulez vous afficher les résultats imposés ou choisir votre propre résultat (choix 1 ou 2)")
+    question = input("Voulez-vous afficher les résultats imposés ou choisir votre propre résultat (choix 1 ou 2): ")
     while question in {"1", "2"}:
         if question == "1":
-            if reponse in "Fleury et Bott":
+            if reponse == "Fleury et Bott":
                 somme_a_rendre_FB = (0, 60, 63, 231, 899)
-                return somme_a_rendre_FB
-            elif reponse in "Madame Guipure":
+                return somme_a_rendre_FB, question
+            elif reponse == "Madame Guipure":
                 somme_a_rendre_MG = (0, 17, 68, 231, 497, 842)
-                return somme_a_rendre_MG
+                return somme_a_rendre_MG, question
         elif question == "2":
             choix = tuple([int(input("Choisissez une somme à rendre: "))])
-            return choix
+            return choix, question
+        return None, question
 
+reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez-vous faire des achats, Madame Guipure, Fleury et Bott, Ollivander ?\nToute autre réponse vous fera sortir du chemin de traverse: ")
 
-
-reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez vous faire des achats, Madame Guipure, Fleury et Bott, Ollivander ?\n Toute autre réponse vous fera sortir du chemin de traverse.  ")
 while reponse in ("Fleury et Bott", "Madame Guipure", "Ollivander"):
     if reponse == "Fleury et Bott" or reponse == "Madame Guipure" or reponse == "Ollivander":
-        somme_a_rendre = question_utilisateur()
-        resultat = afficher_resultat(somme_a_rendre, reponse)
-        print(resultat)
+        somme_a_rendre, question = question_utilisateur()
+        while question in {"1", "2"} and somme_a_rendre is not None:
+            resultat = afficher_resultat(somme_a_rendre, reponse)
+            print(resultat)
+            somme_a_rendre, question = question_utilisateur(reponse)
+    reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez-vous faire des achats, Madame Guipure, Fleury et Bott, Ollivander ?\nToute autre réponse vous fera sortir du chemin de traverse: ")
+
+
+
+
 
 
 

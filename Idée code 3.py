@@ -43,11 +43,11 @@ def afficher_resultat(sommes_a_rendre):
             print(f"il faut donner {values} billet de {keys}")
 
 def question_achat_FB():
-    question = input("voulez vous faire d'autres achats, si oui demandez une somme a rendre")
+    question = input("voulez vous faire d'autres achats")
     if question in ("Oui", "oui", "OUI"):
         question_somme = int(input("indiquez une somme a rendre"))
-        sommes_a_rendre_FB(question_somme)
-        return 
+        somme = sommes_a_rendre_FB(question_somme)
+        return somme
 reponse_CT = input("Vous êtes sur le chemin de traverse voulez vous faire des achats ? ")
 while reponse_CT in ("Oui", "oui", "OUI"):
     reponse = input("Dans quel magasin voulez vous faire des achats, Madame Guipure, Fleury et Bott, Ollivander ?")

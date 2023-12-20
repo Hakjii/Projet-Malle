@@ -12,7 +12,7 @@ def somme_a_donner_FB(somme_a_rendre):
             compteur = somme_a_rendre // nombre
             dico_somme[nombre] = compteur
             somme_a_rendre = somme_a_rendre % nombre
-    return dico_somme
+    return dico_somme, somme_a_rendre
 
 
 def somme_a_donner_MG(somme_a_rendre) :
@@ -26,52 +26,89 @@ def somme_a_donner_MG(somme_a_rendre) :
             dico_somme[billet] = compteur
             somme_a_rendre -= compteur * billet
             dico_billets[billet] -= compteur  
-    return dico_somme, dico_billets
-"""
-def somme_a_donner_O(somme_a_rendre): # 1 gallion = 17 mornilles , 1 mornille = 29 noises
-    dico_somme = {}
+    return dico_somme, somme_a_rendre
 
-"""
-def afficher_resultat(sommes_a_rendre, magasin):
+
+def somme_a_donner_O(total_G, total_M, total_N):
+    dico_monnaie = {'G': total_G, 'M': total_M, 'N': total_N}
+    dico_somme = {'G': 0, 'M': 0, 'N': 0}
+
+    # noises
+    while dico_monnaie['N'] > 29 or dico_monnaie['M'] > 17:
+        # mornille
+        if dico_monnaie['N'] > 29:
+            dico_monnaie['N'] -= 29
+            dico_monnaie['M'] += 1
+            dico_somme['M'] += 1
+        # galion
+        if dico_monnaie['M'] > 17:
+            dico_monnaie['M'] -= 17
+            dico_monnaie['G'] += 1
+            dico_somme['G'] += 1
+
+    
+    return dico_somme, somme_a_rendre
+
+
+
+def dico_resultat(sommes_a_rendre, magasin):
     for i in range(len(sommes_a_rendre)):
-        if magasin == 'Fleury et Bott':
-            resultat = somme_a_donner_FB(sommes_a_rendre[i])
-        elif magasin == 'Madame Guipure':
-            resultat = somme_a_donner_MG(sommes_a_rendre[i])
-        elif magasin == "Ollivander":
-            resultat = somme_a_donner_O(sommes_a_rendre[i])
-    return resultat
+        if magasin == '1':
+            resultat, somme_restante  = somme_a_donner_FB(sommes_a_rendre[i])
+        elif magasin == '2':
+            resultat, somme_restante = somme_a_donner_MG(sommes_a_rendre[i])
+        elif magasin == '3':
+            resultat, somme_restante = somme_a_donner_O(sommes_a_rendre[i])
+    return resultat, somme_restante
 
 
 def question_utilisateur():
-    question = input("Voulez vous afficher les résultats imposés ou choisir votre propre résultat (choix 1 ou 2)")
+    question = input("Voulez-vous afficher les résultats imposés ou choisir votre propre résultat (choix 1 ou 2) : ")
     if question == "1":
-        if reponse in "Fleury et Bott":
+        if reponse == "1":
             somme_a_rendre_FB = (0, 60, 63, 231, 899)
             return somme_a_rendre_FB, question
-        elif reponse in "Madame Guipure":
+        elif reponse == "2":
             somme_a_rendre_MG = (0, 17, 68, 231, 497, 842)
             return somme_a_rendre_MG, question
+        elif reponse == "3":
+            somme_a_rendre_O = ((0, 0, 0), (0, 0, 654), (0, 23, 78), (2, 11, 9), (7, 531, 451))
+            return somme_a_rendre_O, question
     elif question == "2":
-        choix = tuple([int(input("Choisissez une somme à rendre: "))])
-        return choix, question
+        if reponse == "1" or reponse == "2":
+            choix = tuple([int(input("Choisissez une somme à rendre : "))])
+            return choix, question
+        # A CONTINUER
+        elif reponse == "3":
+            total_G = int(input("choisissez le nombre de gallion a rendre : "))
+            total_M = int(input("choisissez le nombre de Mornilles a rendre : "))
+            total_N = int(input("choisissez le nombre de Noises a rendre : "))
+            return total_G, total_M, total_M, question
+    else:
+        return None, None
 
- 
-def utiliser_resultat(dico_resultat, somme_a_rendre):
+# A CONTINUER
+def afficher_resultat(dico_resultat, somme_a_rendre):
+    resultat, somme_restante = dico_resultat
+
     for nombre in somme_a_rendre:
-        print(f"pour une somme a rendre de {nombre}")
-        for keys, values in dico_resultat.items():
-            print(f"il faut {values} billets de {keys}")
+        print(f"\nPour une somme à rendre de {nombre}:")
+        for billet, quantite in resultat.items():
+            print(f"Il faut {quantite} billets de {billet}")
+
+        if somme_restante > 0:
+            print(f"Il reste {somme_restante} de monnaie à rendre.")
 
 
 
-reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez vous faire des achats, Fleury et Bott, Madame Guipure, Ollivander ?\nToute autre réponse vous fera sortir du chemin de traverse.")
-while reponse in ("Fleury et Bott", "Madame Guipure", "Ollivander"):
-    if reponse == "Fleury et Bott" or reponse == "Madame Guipure" or reponse == "Ollivander":
+reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez vous faire des achats, Fleury et Bott (1), Madame Guipure (2), Ollivander (3) ?\nToute autre réponse vous fera sortir du chemin de traverse.")
+while reponse in ("1", "2", "3"):
+    if reponse == "1" or reponse == "2" or reponse == "3":
         somme_a_rendre, question = question_utilisateur()
         while question in {"1", "2"}:
-            resultat = afficher_resultat(somme_a_rendre, reponse)
-            utiliser_resultat(resultat, somme_a_rendre)
+            resultat = dico_resultat(somme_a_rendre, reponse)
+            afficher_resultat(resultat, somme_a_rendre)
             somme_a_rendre, question = question_utilisateur()
-    reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez vous faire des achats, Fleury et Bott, Madame Guipure, Ollivander ?\nToute autre réponse vous fera sortir du chemin de traverse.")
+    reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez vous faire des achats, Fleury et Bott (1), Madame Guipure (2), Ollivander (3) ?\nToute autre réponse vous fera sortir du chemin de traverse.")
+
        
