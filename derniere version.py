@@ -58,7 +58,7 @@ def dico_resultat(sommes_a_rendre, magasin):
         elif magasin == '2':
             resultat, somme_restante = somme_a_donner_MG(sommes_a_rendre[i])
         elif magasin == '3':
-            resultat, somme_restante = somme_a_donner_O(sommes_a_rendre[i])
+            resultat, somme_restante = somme_a_donner_O(sommes_a_rendre[i][0], sommes_a_rendre[i][1], sommes_a_rendre[i][2] )
     return resultat, somme_restante
 
 
