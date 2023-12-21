@@ -40,7 +40,7 @@ def somme_a_donner_O(total_G, total_M, total_N):
             dico_monnaie['N'] -= 29
             dico_monnaie['M'] += 1
             dico_somme['M'] += 1
-        # galion
+        # gallion
         if dico_monnaie['M'] > 17:
             dico_monnaie['M'] -= 17
             dico_monnaie['G'] += 1
@@ -62,7 +62,7 @@ def dico_resultat(sommes_a_rendre, magasin):
     return resultat, somme_restante
 
 
-def question_utilisateur():
+def question_utilisateur(reponse):
     question = input("Voulez-vous afficher les résultats imposés ou choisir votre propre résultat (choix 1 ou 2) : ")
     if question == "1":
         if reponse == "1":
@@ -83,19 +83,18 @@ def question_utilisateur():
             total_G = int(input("choisissez le nombre de gallion a rendre : "))
             total_M = int(input("choisissez le nombre de Mornilles a rendre : "))
             total_N = int(input("choisissez le nombre de Noises a rendre : "))
-            return total_G, total_M, total_M, question
+            choix = (total_G, total_M, total_N)
+            return choix, question
     else:
         return None, None
 
 # A CONTINUER
 def afficher_resultat(dico_resultat, somme_a_rendre):
     resultat, somme_restante = dico_resultat
-
     for nombre in somme_a_rendre:
         print(f"\nPour une somme à rendre de {nombre}:")
         for billet, quantite in resultat.items():
             print(f"Il faut {quantite} billets de {billet}")
-
         if somme_restante > 0:
             print(f"Il reste {somme_restante} de monnaie à rendre.")
 
@@ -103,12 +102,9 @@ def afficher_resultat(dico_resultat, somme_a_rendre):
 
 reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez vous faire des achats, Fleury et Bott (1), Madame Guipure (2), Ollivander (3) ?\nToute autre réponse vous fera sortir du chemin de traverse.")
 while reponse in ("1", "2", "3"):
-    if reponse == "1" or reponse == "2" or reponse == "3":
-        somme_a_rendre, question = question_utilisateur()
-        while question in {"1", "2"}:
-            resultat = dico_resultat(somme_a_rendre, reponse)
-            afficher_resultat(resultat, somme_a_rendre)
-            somme_a_rendre, question = question_utilisateur()
+    somme_a_rendre, question = question_utilisateur(reponse)
+    while question in ("1", "2"):
+        resultat = dico_resultat(somme_a_rendre, reponse)
+        afficher_resultat(resultat, somme_a_rendre)
+        somme_a_rendre, question = question_utilisateur(reponse)
     reponse = input("Vous êtes sur le chemin de traverse\nDans quel magasin voulez vous faire des achats, Fleury et Bott (1), Madame Guipure (2), Ollivander (3) ?\nToute autre réponse vous fera sortir du chemin de traverse.")
-
-       
